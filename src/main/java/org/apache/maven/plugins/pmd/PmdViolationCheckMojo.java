@@ -95,29 +95,37 @@ public class PmdViolationCheckMojo
      */
     protected void printError( Violation item, String severity )
     {
-
         StringBuilder buff = new StringBuilder( 100 );
-        buff.append( "PMD " ).append( severity ).append( ": " );
-        if ( item.getViolationClass() != null )
+        if ( item.getFileName() != null )
         {
-            if ( item.getViolationPackage() != null )
-            {
-                buff.append( item.getViolationPackage() );
-                buff.append( "." );
-            }
-            buff.append( item.getViolationClass() );
+            buff.append( project.getModel().getBuild().getSourceDirectory() );
+            buff.append( File.separatorChar );
+            buff.append( item.getFileName() );
         }
         else
         {
-            buff.append( item.getFileName() );
+            buff.append( "PMD " ).append( severity ).append( ": " );
+            if ( item.getViolationClass() != null )
+            {
+                if ( item.getViolationPackage() != null )
+                {
+                    buff.append( item.getViolationPackage() );
+                    buff.append( "."  );
+                }
+                buff.append( item.getViolationClass() );
+            }
+            else
+            {
+                buff.append( "File could not be identified!" );
+            }
         }
-        buff.append( ":" );
+        buff.append( ":[" );
         buff.append( item.getBeginline() );
-        buff.append( " Rule:" ).append( item.getRule() );
-        buff.append( " Priority:" ).append( item.getPriority() );
+        buff.append( ",0] Rule " ).append( item.getRule() );
+        buff.append( " Priority " ).append( item.getPriority() );
         buff.append( " " ).append( item.getText() ).append( "." );
 
-        this.getLog().info( buff.toString() );
+        this.getLog().warn( buff.toString() );
     }
 
     @Override

@@ -288,7 +288,7 @@ public abstract class AbstractPmdViolationCheckMojo<D>
     }
 
     /**
-     * Formats the failure details and prints them as an INFO message
+     * Formats the failure details and prints them as a WARN message
      *
      * @param item either a {@link org.apache.maven.plugins.pmd.model.Violation} from PMD
      * or a {@link org.apache.maven.plugins.pmd.model.Duplication} from CPD
